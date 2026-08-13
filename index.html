@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guled — Professional Frontend and Backend Services</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Guled</a>
+
+      <button id="nav-toggle" class="nav-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Open menu">
+        <span aria-hidden="true">☰</span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" role="navigation" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#why">Why</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#about">About</a>
+        <a href="#contact" id="contact-link">Contact</a>
+        <a href="#signup" class="cta">Signup</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero-inner container">
+        <h1 class="hero-title">Professional websites that convert</h1>
+        <p class="lead">I design and build polished, responsive websites for businesses and professionals.</p>
+        <a href="#services" class="btn-primary">See services</a>
+      </div>
+    </section>
+
+    <section id="services" class="section container">
+      <h2>Services</h2>
+      <div class="cards" aria-live="polite">
+        <article class="card"><h3>Design</h3><p>Modern UI/UX design.</p></article>
+        <article class="card"><h3>Development</h3><p>React, responsive, accessible.</p></article>
+        <article class="card"><h3>Deploy</h3><p>Fast hosting and CI/CD.</p></article>
+      </div>
+    </section>
+
+    <section id="why" class="section container">
+      <h2>Why choose me</h2>
+      <p class="text-muted">I combine design and technical skills to deliver sites that perform.</p>
+    </section>
+
+    <section id="pricing" class="section container">
+      <h2>Pricing</h2>
+      <p class="text-muted">Simple packages for startups and professionals.</p>
+    </section>
+
+    <section id="about" class="section container">
+      <h2>About me</h2>
+
+      <!-- Inline about card: portrait on left, text on right (stacks on mobile) -->
+      <div class="about-card" aria-labelledby="about-heading">
+        <img src="images/you.jpg" alt="Portrait of Your Name" class="about-img" />
+        <div class="about-body">
+          <h3 id="about-heading" class="about-name">Your Name</h3>
+          <p class="about-desc">
+            I design and build polished, responsive websites for small businesses and professionals.
+            I focus on clean UI, fast performance, and clear communication. I can help you get a modern website
+            that converts visitors into clients.
+          </p>
+          <p class="about-cta">
+            <a href="#contact" class="btn-primary">Contact me</a>
+            <a href="#services" class="btn-secondary">See services</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="about-more">
+        <p>Short story / bullet points about experience and approach. Add links to case studies or portfolio items here.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Guled Nassib. All rights reserved</p>
+    </div>
+  </footer>
+
+  <!-- CONTACT PANEL (floating) -->
+  <div id="contact-panel" class="contact-panel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="contact-title">
+    <button id="contact-close" class="contact-close" aria-label="Close contact">✕</button>
+
+    <div class="contact-inner">
+      <h3 id="contact-title">Contact me</h3>
+
+      <form id="contact-form" class="contact-form" novalidate>
+        <label>
+          <span class="sr-only">Your name</span>
+          <input name="name" id="contact-name" type="text" placeholder="Your name" required />
+        </label>
+
+        <label>
+          <span class="sr-only">Email</span>
+          <input name="email" id="contact-email" type="email" placeholder="Email address" required />
+        </label>
+
+        <label>
+          <span class="sr-only">Message</span>
+          <textarea name="message" id="contact-message" rows="4" placeholder="Tell me about your project" required></textarea>
+        </label>
+
+        <div class="contact-actions">
+          <button type="submit" class="btn-primary">Send message</button>
+          <button type="button" id="contact-cancel" class="btn-secondary">Cancel</button>
+        </div>
+
+        <div id="contact-status" aria-live="polite" class="contact-status" hidden></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
