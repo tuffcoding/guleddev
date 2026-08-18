@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Translator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <main class="translator-app">
+      <header class="translator-header">
+        <h1>Simple Translator</h1>
+      </header>
+
+      <section class="translator-layout">
+        <aside class="translator-side">
+          <h3>About the Creator</h3>
+          <div class="translator-scroll">
+            <p>
+              I'm Guled — this small translator is a demo. Click Translate to
+              test the web version.
+            </p>
+          </div>
+        </aside>
+
+        <div class="translator-main" role="application" aria-live="polite">
+          <div class="translator-controls">
+            <select id="translator-from" aria-label="Translate from">
+              <option value="en">English</option>
+              <option value="so">Somali</option>
+              <option value="es">Spanish</option>
+              <option value="ar">Arabic</option>
+            </select>
+
+            <button
+              id="translator-swap"
+              class="btn-secondary"
+              title="Swap languages"
+              type="button"
+            >
+              ↔
+            </button>
+
+            <select id="translator-to" aria-label="Translate to">
+              <option value="so" selected>Somali</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="ar">Arabic</option>
+            </select>
+          </div>
+
+          <form id="translator-form" class="translator-form" novalidate>
+            <textarea
+              id="translator-input"
+              placeholder="Enter text"
+              maxlength="2000"
+              rows="6"
+            ></textarea>
+
+            <div class="translator-actions">
+              <button id="translator-translate" class="btn-primary" type="submit">
+                Translate
+              </button>
+
+              <button
+                id="translator-clear"
+                type="button"
+                class="btn-secondary"
+              >
+                Clear
+              </button>
+
+              <button
+                id="translator-copy"
+                type="button"
+                class="btn-secondary"
+              >
+                Copy
+              </button>
+            </div>
+
+            <div
+              id="translator-status"
+              class="translator-status"
+              aria-live="polite"
+              hidden
+            ></div>
+
+            <textarea
+              id="translator-output"
+              readonly
+              rows="6"
+              placeholder="Translation will appear here"
+            ></textarea>
+          </form>
+        </div>
+
+        <aside class="translator-side translator-example">
+          <h3>Example</h3>
+          <div class="translator-scroll">
+            <p>Click the example to load a sample and translate.</p>
+            <button id="translator-example" class="btn-secondary" type="button">
+              Load example
+            </button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="main.js" defer></script>
+  </body>
+</html>
