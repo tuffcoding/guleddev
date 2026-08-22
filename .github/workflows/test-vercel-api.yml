@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Curl Vercel preview API (POST)
         run: |
-          # Replace this with your actual preview URL (only once)
-          PREVIEW_URL="guleddev-erdmjj76l-guleddev.vercel.app"
+          # Using the preview URL you gave (do NOT add extra https://)
+          PREVIEW_URL="guleddev-fclwlzcm3-guleddev.vercel.app"
 
           curl -v -X POST "https://${PREVIEW_URL}/api/create-checkout-session" \
             -H "Content-Type: application/json" \
