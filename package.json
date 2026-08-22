@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "Landing site + Stripe Checkout + webhook endpoints",
-  "main": "server.js",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "dev": "nodemon server.js --watch . --ignore node_modules",
-    "start": "node server.js",
     "build": "next build",
     "vercel-build": "npm run build",
     "lint": "eslint . --ext .js",
