@@ -1,0 +1,29 @@
+name: Test latest Vercel deployment
+on:
+  workflow_dispatch:
+
+jobs:
+  curl_latest_deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest deployment from Vercel
+        id: getdeployment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          resp=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v6/deployments?projectId=$PROJECT_ID&limit=1")
+          echo "$resp" | jq -r '.deployments[0].url' > deployment_url.txt
+          url=$(cat deployment_url.txt)
+          echo "Latest deployment: $url"
+          echo "::set-output name=url::$url"
+
+      - name: Curl latest deployment API
+        env:
+          TARGET_URL: ${{ steps.getdeployment.outputs.url }}
+        run: |
+          echo "Testing https://${TARGET_URL}/api/create-checkout-session"
+          curl -v -X POST "https://${TARGET_URL}/api/create-checkout-session" \
+            -H "Content-Type: application/json" \
+            -d '{"priceId":"test-price","successUrl":"https://example.com","cancelUrl":"https://example.com"}'
