@@ -1,0 +1,13 @@
+name: Test create-checkout-session
+on: workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl create-checkout-session
+        run: |
+          echo "POSTing to production endpoint..."
+          curl -v -X POST 'https://www.guleddev.com/api/create-checkout-session' \
+          -H 'Content-Type: application/json' \
+          -d '{"priceId":"price_1U75hu0qQJc4P3EQ3E6Esorl"}' || true
