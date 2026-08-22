@@ -1,0 +1,16 @@
+name: Test Vercel API
+on:
+  workflow_dispatch:
+
+jobs:
+  curl_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl Vercel preview API (POST)
+        run: |
+          # Replace this with your actual preview URL (only once)
+          PREVIEW_URL="guleddev-erdmjj76l-guleddev.vercel.app"
+
+          curl -v -X POST "https://${PREVIEW_URL}/api/create-checkout-session" \
+            -H "Content-Type: application/json" \
+            -d '{"priceId":"test-price","successUrl":"https://example.com","cancelUrl":"https://example.com"}'
