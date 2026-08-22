@@ -1,28 +1,31 @@
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-11-15' });
-
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  console.log("create-checkout-session hit", { method: req.method, body: req.body });
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   try {
-    const { priceId, mode = 'subscription', successUrl, cancelUrl, customerEmail, metadata } = req.body;
+    const { priceId, successUrl, cancelUrl } = req.body || {};
 
-    if (!priceId) return res.status(400).json({ error: 'Missing priceId' });
+    if (!priceId || !successUrl || !cancelUrl) {
+      console.log("create-checkout-session missing fields", { priceId, successUrl, cancelUrl });
+      return res.status(400).json({ error: "Missing priceId, successUrl or cancelUrl" });
+    }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: 1 }],
-      mode: mode === 'payment' ? 'payment' : 'subscription',
-      success_url: successUrl || `${process.env.DOMAIN}/?success=true`,
-      cancel_url: cancelUrl || `${process.env.DOMAIN}/?canceled=true`,
-      customer_email: customerEmail || undefined,
-      metadata: metadata || {},
+    // Placeholder behavior for testing (replace with real Stripe call later).
+    const fakeSessionUrl = `https://example.com/checkout?price=${encodeURIComponent(priceId)}`;
+
+    console.log("create-checkout-session success", { priceId, successUrl, cancelUrl, fakeSessionUrl });
+
+    return res.status(200).json({
+      success: true,
+      sessionUrl: fakeSessionUrl,
+      received: { priceId, successUrl, cancelUrl }
     });
-
-    return res.status(200).json({ url: session.url });
   } catch (err) {
-    console.error('create-checkout-session error', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("create-checkout-session error:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
