@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
-// Real NASA/ESA/CSA Webb Telescope image of the "Cosmic Cliffs" in the Carina Nebula.
-// Public NASA imagery — safe to hotlink. We just request different crops/sizes
-// from NASA's own image resizer for each spot on the page.
 const SPACE_IMG = (w, h) =>
   `https://assets.science.nasa.gov/dynamicimage/assets/science/missions/webb/science/2022/07/STScI-01GA6KKWG229B16K4Q38CH3BXS.png?w=w&h={h}&fit=clip&crop=faces,focalpoint`;
 
@@ -16,7 +13,6 @@ const SERVICES = [
     title: "Deployment & DevOps",
     description:
       "We take your codebase from repo to production — CI/CD, environment config, and zero-downtime releases handled for you.",
-    exampleLabel: "EXAMPLE",
     example:
       "A Next.js + Stripe storefront, wired to Vercel with automatic preview deployments on every pull request.",
     steps: [
@@ -24,9 +20,7 @@ const SERVICES = [
       ["Automate the pipeline", "Every push gets linted, built, and deployed to a preview URL automatically."],
       ["Ship to production", "One approval promotes a preview straight to your live domain, no manual steps."],
     ],
-    outcome: "Outcome: deploys that used to take an afternoon now take under two minutes.",
-    bg: "bg-white",
-    accent: "eaf6d0",
+    outcome: "Deploys that used to take an afternoon now take under two minutes.",
   },
   {
     icon: "🔒",
@@ -34,7 +28,6 @@ const SERVICES = [
     title: "Security & Reliability",
     description:
       "Secrets management, dependency scanning, and uptime monitoring so a bad deploy never becomes a bad week.",
-    exampleLabel: "EXAMPLE",
     example:
       "Environment secrets moved out of client code and into your host's encrypted variable store, with rotation reminders.",
     steps: [
@@ -42,9 +35,7 @@ const SERVICES = [
       ["Lock it down", "Secrets move server-side, webhooks get signature verification, and access is scoped."],
       ["Watch it continuously", "Uptime and error monitoring alert you before your customers notice anything."],
     ],
-    outcome: "Outcome: fewer 3am pages, and a paper trail when something does go wrong.",
-    bg: "bg-[#d9ff38]",
-    accent: "071727",
+    outcome: "Fewer 3am pages, and a paper trail when something does go wrong.",
   },
   {
     icon: "🎧",
@@ -52,7 +43,6 @@ const SERVICES = [
     title: "Ongoing Support",
     description:
       "Direct access to a developer who already knows your codebase — no ticket queues, no re-explaining context.",
-    exampleLabel: "EXAMPLE",
     example:
       "A checkout endpoint returning 404 after a deploy, diagnosed and fixed same-day by someone who built it.",
     steps: [
@@ -60,9 +50,7 @@ const SERVICES = [
       ["Get a real diagnosis", "We reproduce the issue against your actual deployment, not a generic checklist."],
       ["Fixed and documented", "You get the fix and a short note on why it happened, so it doesn't repeat."],
     ],
-    outcome: "Outcome: problems get solved in hours, not support-ticket weeks.",
-    bg: "bg-[#0c2134]",
-    accent: "d9ff38",
+    outcome: "Problems get solved in hours, not support-ticket weeks.",
   },
 ];
 
@@ -99,8 +87,8 @@ export default function Home() {
   const [openService, setOpenService] = useState(null);
   const [offerVisible, setOfferVisible] = useState(false);
 
-  useState(() => {
-    const t = setTimeout(() => setOfferVisible(true), 750);
+  useEffect(() => {
+    const t = setTimeout(() => setOfferVisible(true), 900);
     return () => clearTimeout(t);
   }, []);
 
@@ -113,458 +101,403 @@ export default function Home() {
     <>
       <Head>
         <title>GuledDev — Managed development &amp; hosting</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </Head>
 
-      <style jsx global>{`
-        :root {
-          --ink: #071727;
-          --lime: #d9ff38;
-          --paper: #f7f9f2;
-        }
-        body {
-          margin: 0;
-          font-family: "DM Sans", system-ui, sans-serif;
-          color: var(--ink);
-          background: var(--paper);
-        }
-        .grid-noise {
-          background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-          background-size: 46px 46px;
-        }
-        .eyebrow {
-          font-family: "Space Mono", monospace;
-          letter-spacing: 0.09em;
-          text-transform: uppercase;
-          font-size: 0.7rem;
-        }
-        .lime-dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          display: inline-block;
-          background: var(--lime);
-          box-shadow: 0 0 18px rgba(217, 255, 56, 0.85);
-        }
-        .hero-title {
-          font-size: clamp(3rem, 7vw, 6rem);
-          letter-spacing: -0.075em;
-          line-height: 0.9;
-        }
-        .page-title {
-          font-size: clamp(2.6rem, 5.5vw, 4.8rem);
-          letter-spacing: -0.07em;
-          line-height: 0.92;
-        }
-        .nav-link {
-          position: relative;
-          background: transparent;
-          border: 0;
-          padding: 0.45rem 0;
-          font: inherit;
-          cursor: pointer;
-          color: #c8d3da;
-        }
-        .nav-link.active,
-        .nav-link:hover {
-          color: #fff;
-        }
-        .action-button {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .action-button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 13px 28px rgba(0, 0, 0, 0.2);
-        }
-        .hero-image-wrap {
-          position: relative;
-        }
-        .hero-image-wrap::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          background: linear-gradient(90deg, rgba(7, 23, 39, 0.36), transparent 52%),
-            linear-gradient(0deg, rgba(7, 23, 39, 0.76), transparent 42%);
-        }
-        .service-card {
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .service-card.open {
-          transform: translateY(-6px);
-          box-shadow: 0 24px 44px rgba(7, 23, 39, 0.13);
-        }
-        .modal-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 50;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1.25rem;
-          background: rgba(3, 14, 24, 0.76);
-          backdrop-filter: blur(8px);
-        }
-      `}</style>
-
-      <div className="site-shell w-full">
-        <header className="bg-[#071727] text-white border-b border-white/10">
-          <div className="w-full max-w-7xl mx-auto px-5 sm:px-8">
-            <div className="h-[76px] flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => go("home")}
-                className="text-white bg-transparent border-0 font-bold text-xl tracking-[-0.06em] p-0 cursor-pointer"
-              >
-                GuledDev
-              </button>
-              <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-                {NAV_ITEMS.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    className={`nav-link capitalize ${view === item ? "active" : ""}`}
-                    onClick={() => go(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </nav>
-              <div className="hidden md:flex items-center gap-5">
-                <a href="mailto:hello@guleddev.com" className="text-sm font-semibold text-white no-underline hover:text-[#d9ff38]">
-                  hello@guleddev.com
-                </a>
+      <div className="page">
+        {/* HEADER */}
+        <header className="header">
+          <div className="container header-row">
+            <button className="brand" onClick={() => go("home")}>GuledDev</button>
+            <nav className="nav-desktop">
+              {NAV_ITEMS.map((item) => (
                 <button
-                  type="button"
-                  onClick={() => go("pricing")}
-                  className="action-button px-4 py-2.5 bg-[#d9ff38] text-[#071727] border-0 font-bold text-sm rounded-sm cursor-pointer"
+                  key={item}
+                  className={`nav-link ${view === item ? "active" : ""}`}
+                  onClick={() => go(item)}
                 >
-                  Get started
+                  {item[0].toUpperCase() + item.slice(1)}
                 </button>
-              </div>
-              <button
-                type="button"
-                aria-label="Toggle navigation menu"
-                onClick={() => setMobileOpen((o) => !o)}
-                className="md:hidden p-2 bg-transparent border-0 text-[#d9ff38] cursor-pointer text-2xl"
-              >
-                ☰
-              </button>
+              ))}
+            </nav>
+            <div className="header-actions">
+              <a className="header-email" href="mailto:hello@guleddev.com">hello@guleddev.com</a>
+              <button className="btn btn-accent" onClick={() => go("pricing")}>Get started</button>
             </div>
-            {mobileOpen && (
-              <nav className="md:hidden flex flex-col gap-4 pb-6 text-lg font-semibold">
-                {NAV_ITEMS.map((item) => (
-                  <button key={item} type="button" className="nav-link text-left w-fit capitalize" onClick={() => go(item)}>
-                    {item}
-                  </button>
-                ))}
-                <a href="mailto:hello@guleddev.com" className="text-[#d9ff38] no-underline text-base">
-                  hello@guleddev.com
-                </a>
-              </nav>
-            )}
+            <button className="menu-toggle" aria-label="Toggle menu" onClick={() => setMobileOpen((o) => !o)}>
+              {mobileOpen ? "✕" : "☰"}
+            </button>
           </div>
+          {mobileOpen && (
+            <nav className="nav-mobile">
+              {NAV_ITEMS.map((item) => (
+                <button key={item} className="nav-mobile-link" onClick={() => go(item)}>
+                  {item[0].toUpperCase() + item.slice(1)}
+                </button>
+              ))}
+              <a className="header-email" href="mailto:hello@guleddev.com">hello@guleddev.com</a>
+            </nav>
+          )}
         </header>
 
-        <main>
-          {view === "home" && (
-            <section aria-label="Home page">
-              <section className="relative bg-[#071727] text-white overflow-hidden">
-                <div className="absolute inset-0 grid-noise opacity-60" />
-                <div className="absolute -top-24 right-[14%] w-80 h-80 rounded-full bg-[#d9ff38]/10 blur-3xl" />
-                <div className="relative w-full max-w-7xl mx-auto px-5 sm:px-8 py-16 lg:py-24">
-                  <div className="grid lg:grid-cols-[1.02fr_.98fr] gap-12 items-center">
-                    <div>
-                      <div className="flex items-center gap-3 mb-7">
-                        <span className="lime-dot" />
-                        <p className="eyebrow text-[#d9ff38] m-0">MANAGED DEV &amp; HOSTING</p>
-                      </div>
-                      <h1 className="hero-title font-bold max-w-3xl m-0">
-                        Ship your product. We&apos;ll run the infrastructure.
-                      </h1>
-                      <p className="text-[#c4d0d8] text-lg leading-relaxed max-w-xl mt-8 mb-0">
-                        Deployment pipelines, Stripe checkout, webhooks, monitoring — the parts of shipping a
-                        product that eat your week. We build and run them so you can stay focused on the product
-                        itself.
-                      </p>
-                      <div className="flex flex-wrap gap-3 mt-9">
-                        <button type="button" onClick={() => go("pricing")} className="action-button bg-[#d9ff38] text-[#071727] px-6 py-4 rounded-sm font-bold border-0 cursor-pointer">
-                          See pricing
-                        </button>
-                        <button type="button" onClick={() => go("services")} className="action-button bg-transparent border border-white/30 text-white px-6 py-4 rounded-sm font-bold cursor-pointer hover:bg-white/10">
-                          View services
-                        </button>
-                      </div>
-                      <div className="mt-12 pt-7 border-t border-white/15 flex flex-wrap gap-x-8 gap-y-3 text-sm text-[#b5c2cb]">
-                        <span>✓ Uptime monitored 24/7</span>
-                        <span>⚡ Deploys in minutes, not hours</span>
-                      </div>
-                    </div>
-                    <div className="hero-image-wrap relative min-h-[370px] lg:min-h-[505px] border border-white/15 overflow-hidden shadow-2xl">
-                      <img
-                        src={SPACE_IMG(1200, 900)}
-                        alt="Cosmic Cliffs in the Carina Nebula, captured by NASA's James Webb Space Telescope"
-                        className="absolute inset-0 w-full h-full object-cover"
-                        style={{ filter: "saturate(.85) contrast(1.05)" }}
-                        loading="lazy"
-                      />
-                      <div className="absolute z-10 bottom-0 left-0 right-0 p-6 sm:p-8">
-                        <div className="flex items-center gap-3">
-                          <span className="w-11 h-11 flex items-center justify-center rounded-full bg-[#d9ff38] text-[#071727]">📡</span>
-                          <div>
-                            <p className="eyebrow text-[#d9ff38] m-0">LIVE STATUS</p>
-                            <p className="text-white font-semibold text-lg mt-1 mb-0">Infrastructure that doesn&apos;t sleep</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+        {/* HOME */}
+        {view === "home" && (
+          <>
+            <section className="hero">
+              <div className="hero-bg" />
+              <div className="container hero-grid">
+                <div>
+                  <div className="eyebrow-row">
+                    <span className="dot" />
+                    <span className="eyebrow eyebrow-light">Managed dev &amp; hosting</span>
                   </div>
-                </div>
-              </section>
-
-              <section className="bg-[#f7f9f2] py-16 sm:py-24">
-                <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[.9fr_1.1fr] gap-10 lg:gap-20 items-center">
-                  <div className="relative">
-                    <img
-                      src={SPACE_IMG(900, 700)}
-                      alt="Star-forming region of the Carina Nebula"
-                      className="w-full min-h-[290px] object-cover"
-                      loading="lazy"
-                    />
-                    <div className="absolute bottom-5 left-5 bg-[#071727] text-white px-5 py-4 max-w-xs">
-                      <p className="eyebrow text-[#d9ff38] m-0">7,600 light-years from Earth — and your server still needs a human watching it.</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="eyebrow text-[#37624c] font-bold mb-5">OUR MISSION</p>
-                    <h2 className="page-title font-bold max-w-3xl m-0">Built for founders who&apos;d rather build than debug deploys.</h2>
-                    <p className="text-[#52616a] text-lg leading-relaxed mt-7 mb-0 max-w-2xl">
-                      Most teams lose days to preview-URL churn, misconfigured build settings, and 404s that
-                      shouldn&apos;t exist. We set your project up right the first time — and stay on as the
-                      person you call when something breaks.
-                    </p>
-                    <button type="button" onClick={() => go("about")} className="action-button mt-8 bg-[#071727] text-white px-6 py-4 rounded-sm font-bold border-0 cursor-pointer">
-                      More about us
-                    </button>
-                  </div>
-                </div>
-              </section>
-            </section>
-          )}
-
-          {view === "services" && (
-            <section aria-label="Services page">
-              <section className="bg-[#f7f9f2] py-16 sm:py-24 border-b border-[#dfe5dd]">
-                <div className="w-full max-w-7xl mx-auto px-5 sm:px-8">
-                  <p className="eyebrow text-[#37624c] font-bold mb-5">SERVICES</p>
-                  <h2 className="page-title font-bold max-w-4xl m-0">Everything from first commit to first customer.</h2>
-                  <p className="max-w-2xl text-[#52616a] text-lg leading-relaxed mt-7 mb-0">
-                    Pick what you need — deployment, security, ongoing support — or bundle all three.
+                  <h1 className="hero-title">Ship your product.<br />We&apos;ll run the infrastructure.</h1>
+                  <p className="hero-copy">
+                    Deployment pipelines, Stripe checkout, webhooks, monitoring — the parts of shipping
+                    a product that eat your week. We build and run them so you can stay focused on the
+                    product itself.
                   </p>
-                </div>
-              </section>
-              <section className="bg-white py-14 sm:py-20">
-                <div className="w-full max-w-7xl mx-auto px-5 sm:px-8">
-                  <p className="eyebrow text-[#597161] font-bold mb-6">TAP A CARD TO SEE HOW IT WORKS</p>
-                  <div className="grid md:grid-cols-3 gap-5">
-                    {SERVICES.map((s, i) => {
-                      const isOpen = openService === i;
-                      return (
-                        <article key={s.title} className={`service-card ${s.bg} border border-[#dfe5dd] ${isOpen ? "open" : ""}`}>
-                          <button
-                            type="button"
-                            className="w-full text-left border-0 bg-transparent cursor-pointer p-7 sm:p-8"
-                            aria-expanded={isOpen}
-                            onClick={() => setOpenService(isOpen ? null : i)}
-                          >
-                            <span className="w-12 h-12 flex items-center justify-center rounded-full text-2xl" style={{ background: `#${s.accent}22` }}>
-                              {s.icon}
-                            </span>
-                            <p className="eyebrow font-bold mt-8 mb-3 opacity-70">{s.number}</p>
-                            <h3 className="tracking-[-.045em] font-bold text-xl mb-4">{s.title}</h3>
-                            <p className="leading-relaxed m-0 opacity-90">{s.description}</p>
-                            <span className="inline-flex items-center gap-2 mt-6 text-sm font-bold">
-                              {isOpen ? "Show less" : "See how it works"} <span>{isOpen ? "−" : "+"}</span>
-                            </span>
-                          </button>
-                          {isOpen && (
-                            <div className="px-7 sm:px-8 pb-8">
-                              <div className="border-t border-black/10 pt-6">
-                                <img
-                                  src={SPACE_IMG(700, 400)}
-                                  alt=""
-                                  className="w-full h-44 object-cover mb-6"
-                                  loading="lazy"
-                                />
-                                <p className="eyebrow font-bold mb-2 opacity-70">{s.exampleLabel}</p>
-                                <p className="font-semibold leading-relaxed m-0">{s.example}</p>
-                                <div className="mt-7 space-y-5">
-                                  {s.steps.map(([title, copy], idx) => (
-                                    <div className="flex gap-4" key={title}>
-                                      <span className="text-xs font-mono pt-1 opacity-60">0{idx + 1}</span>
-                                      <div>
-                                        <h4 className="font-bold m-0">{title}</h4>
-                                        <p className="text-sm leading-relaxed mt-1 mb-0 opacity-80">{copy}</p>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                                <div className="mt-7 p-4" style={{ background: `#${s.accent}22` }}>
-                                  <p className="font-semibold text-sm leading-relaxed m-0">{s.outcome}</p>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </article>
-                      );
-                    })}
+                  <div className="btn-row">
+                    <button className="btn btn-accent btn-lg" onClick={() => go("pricing")}>See pricing</button>
+                    <button className="btn btn-ghost btn-lg" onClick={() => go("services")}>View services</button>
+                  </div>
+                  <div className="trust-row">
+                    <span>✓ Uptime monitored 24/7</span>
+                    <span>⚡ Deploys in minutes, not hours</span>
                   </div>
                 </div>
-              </section>
-            </section>
-          )}
-
-          {view === "pricing" && (
-            <section aria-label="Pricing page">
-              <section className="bg-white py-16 sm:py-24">
-                <div className="w-full max-w-7xl mx-auto px-5 sm:px-8">
-                  <div className="max-w-2xl mb-12">
-                    <p className="eyebrow text-[#37624c] font-bold mb-5">PRICING</p>
-                    <h2 className="page-title font-bold m-0">Simple plans, no surprise invoices.</h2>
-                  </div>
-                  <div className="grid lg:grid-cols-3 gap-5 items-stretch">
-                    {PLANS.map((plan) => (
-                      <article
-                        key={plan.name}
-                        className={`flex flex-col p-7 sm:p-8 relative ${
-                          plan.dark ? "bg-[#071727] text-white shadow-xl" : "border border-[#d7dfdc]"
-                        }`}
-                      >
-                        {plan.badge && (
-                          <span className="absolute top-0 right-6 -translate-y-1/2 bg-[#d9ff38] text-[#071727] rounded-sm px-3 py-1.5 eyebrow font-bold">
-                            {plan.badge}
-                          </span>
-                        )}
-                        <h3 className="tracking-[-.045em] font-bold text-2xl m-0">{plan.name}</h3>
-                        <p className={`mt-3 mb-7 ${plan.dark ? "text-[#bbc8d0]" : "text-[#637078]"}`}>{plan.summary}</p>
-                        <div className="mb-7">
-                          <span className="font-bold text-4xl tracking-[-.07em]">{plan.price}</span>
-                          {plan.period && (
-                            <span className={plan.dark ? "text-[#bbc8d0]" : "text-[#637078]"}>{plan.period}</span>
-                          )}
-                        </div>
-                        <ul className={`space-y-4 mb-9 ${plan.dark ? "text-[#e8eff1]" : "text-[#33434c]"}`}>
-                          {plan.features.map((f) => (
-                            <li className="flex gap-3" key={f}>
-                              <span className={plan.dark ? "text-[#d9ff38]" : "text-[#377553]"}>✓</span>
-                              <span>{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <a
-                          href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
-                          className={`action-button mt-auto px-5 py-3.5 font-bold rounded-sm text-center no-underline ${
-                            plan.dark ? "bg-[#d9ff38] text-[#071727]" : "border border-[#0c2134] text-[#0c2134] hover:bg-[#eef2ec]"
-                          }`}
-                        >
-                          {plan.price === "Let's talk" ? "Contact us" : "Get started"}
-                        </a>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            </section>
-          )}
-
-          {view === "about" && (
-            <section aria-label="About page">
-              <section className="bg-[#d9ff38] py-16 sm:py-24">
-                <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[1fr_.9fr] gap-12 items-center">
-                  <div>
-                    <p className="eyebrow text-[#355116] font-bold mb-5">ABOUT</p>
-                    <h2 className="page-title text-[#071727] font-bold max-w-3xl m-0">
-                      One developer, no ticket queue, no runaround.
-                    </h2>
-                    <p className="text-[#29412d] text-lg leading-relaxed mt-7 mb-0 max-w-2xl">
-                      GuledDev is a small, hands-on shop. When you email us, you&apos;re talking to the person
-                      who&apos;ll actually touch your codebase — not a support rep reading from a script.
-                    </p>
-                    <a
-                      href="mailto:hello@guleddev.com?subject=Let's build something"
-                      className="action-button mt-9 bg-[#071727] text-white px-6 py-4 rounded-sm font-bold inline-block no-underline"
-                    >
-                      Let&apos;s build something
-                    </a>
-                  </div>
-                  <div className="relative">
-                    <img
-                      src={SPACE_IMG(800, 650)}
-                      alt="James Webb Space Telescope image of star formation"
-                      className="w-full min-h-[330px] object-cover border border-[#6b8e17]"
-                      loading="lazy"
-                    />
-                    <div className="absolute -bottom-4 -left-4 bg-[#071727] text-white p-5 max-w-[220px]">
-                      <p className="text-sm leading-relaxed m-0">
-                        We sweat the details most people never see — until they break.
-                      </p>
+                <div className="hero-image-card">
+                  <img src={SPACE_IMG(1100, 850)} alt="Carina Nebula captured by NASA's James Webb Space Telescope" />
+                  <div className="hero-image-caption">
+                    <span className="hero-image-icon">📡</span>
+                    <div>
+                      <div className="eyebrow eyebrow-light">Live status</div>
+                      <div className="hero-image-label">Infrastructure that doesn&apos;t sleep</div>
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
             </section>
-          )}
-        </main>
 
-        <footer className="bg-[#071727] text-white">
-          <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 py-9 flex flex-col sm:flex-row gap-5 justify-between sm:items-center">
-            <p className="font-bold tracking-[-.05em] m-0">GuledDev</p>
-            <p className="text-[#aebbc5] text-sm m-0">© {new Date().getFullYear()} GuledDev. All rights reserved.</p>
-            <a href="mailto:hello@guleddev.com" className="text-[#d9ff38] font-semibold text-sm no-underline hover:text-white">
-              hello@guleddev.com
-            </a>
+            <section className="section section-light">
+              <div className="container mission-grid">
+                <div className="mission-image-wrap">
+                  <img src={SPACE_IMG(800, 620)} alt="Star-forming region of the Carina Nebula" />
+                  <div className="mission-caption">7,600 light-years from Earth — and your server still needs a human watching it.</div>
+                </div>
+                <div>
+                  <div className="eyebrow eyebrow-green">Our mission</div>
+                  <h2 className="section-title">Built for founders who&apos;d rather build than debug deploys.</h2>
+                  <p className="section-copy">
+                    Most teams lose days to preview-URL churn, misconfigured build settings, and 404s
+                    that shouldn&apos;t exist. We set your project up right the first time — and stay on
+                    as the person you call when something breaks.
+                  </p>
+                  <button className="btn btn-dark" onClick={() => go("about")}>More about us</button>
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* SERVICES */}
+        {view === "services" && (
+          <>
+            <section className="section section-light section-border">
+              <div className="container">
+                <div className="eyebrow eyebrow-green">Services</div>
+                <h2 className="section-title">Everything from first commit to first customer.</h2>
+                <p className="section-copy section-copy-wide">Pick what you need — deployment, security, ongoing support — or bundle all three.</p>
+              </div>
+            </section>
+            <section className="section section-white">
+              <div className="container">
+                <div className="eyebrow eyebrow-muted" style={{ marginBottom: "1.75rem" }}>Tap a card to see how it works</div>
+                <div className="service-grid">
+                  {SERVICES.map((s, i) => {
+                    const isOpen = openService === i;
+                    return (
+                      <article key={s.title} className={`service-card ${isOpen ? "open" : ""}`}>
+                        <button className="service-toggle" aria-expanded={isOpen} onClick={() => setOpenService(isOpen ? null : i)}>
+                          <span className="service-icon">{s.icon}</span>
+                          <div className="service-number">{s.number}</div>
+                          <h3 className="service-title">{s.title}</h3>
+                          <p className="service-desc">{s.description}</p>
+                          <span className="service-cta">{isOpen ? "Show less −" : "See how it works +"}</span>
+                        </button>
+                        {isOpen && (
+                          <div className="service-detail">
+                            <img src={SPACE_IMG(700, 380)} alt="" className="service-detail-image" />
+                            <div className="eyebrow eyebrow-muted" style={{ marginBottom: ".4rem" }}>Example</div>
+                            <p className="service-example">{s.example}</p>
+                            <div className="service-steps">
+                              {s.steps.map(([title, copy], idx) => (
+                                <div className="service-step" key={title}>
+                                  <span className="step-num">0{idx + 1}</span>
+                                  <div>
+                                    <div className="step-title">{title}</div>
+                                    <p className="step-copy">{copy}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="service-outcome">{s.outcome}</div>
+                          </div>
+                        )}
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* PRICING */}
+        {view === "pricing" && (
+          <section className="section section-white">
+            <div className="container">
+              <div className="eyebrow eyebrow-green">Pricing</div>
+              <h2 className="section-title" style={{ marginBottom: "3rem" }}>Simple plans, no surprise invoices.</h2>
+              <div className="pricing-grid">
+                {PLANS.map((plan) => (
+                  <article key={plan.name} className={`plan-card ${plan.dark ? "plan-dark" : ""}`}>
+                    {plan.badge && <div className="plan-badge">{plan.badge}</div>}
+                    <h3 className="plan-name">{plan.name}</h3>
+                    <p className="plan-summary">{plan.summary}</p>
+                    <div className="plan-price">
+                      <span className="plan-price-num">{plan.price}</span>
+                      {plan.period && <span className="plan-price-period">{plan.period}</span>}
+                    </div>
+                    <ul className="plan-features">
+                      {plan.features.map((f) => (
+                        <li key={f}><span className="check">✓</span>{f}</li>
+                      ))}
+                    </ul>
+                    <a
+                      className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
+                      href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
+                    >
+                      {plan.price === "Let's talk" ? "Contact us" : "Get started"}
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ABOUT */}
+        {view === "about" && (
+          <section className="section section-accent">
+            <div className="container about-grid">
+              <div>
+                <div className="eyebrow eyebrow-dark">About</div>
+                <h2 className="section-title" style={{ color: "#071727" }}>One developer, no ticket queue, no runaround.</h2>
+                <p className="section-copy" style={{ color: "#243424" }}>
+                  GuledDev is a small, hands-on shop. When you email us, you&apos;re talking to the
+                  person who&apos;ll actually touch your codebase — not a support rep reading from a script.
+                </p>
+                <a className="btn btn-dark" href="mailto:hello@guleddev.com?subject=Let's build something">Let&apos;s build something</a>
+              </div>
+              <div className="about-image-wrap">
+                <img src={SPACE_IMG(750, 620)} alt="James Webb Space Telescope image of star formation" />
+                <div className="about-caption">We sweat the details most people never see — until they break.</div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* FOOTER */}
+        <footer className="footer">
+          <div className="container footer-row">
+            <div className="footer-brand">GuledDev</div>
+            <div className="footer-copy">© {new Date().getFullYear()} GuledDev. All rights reserved.</div>
+            <a className="footer-email" href="mailto:hello@guleddev.com">hello@guleddev.com</a>
           </div>
         </footer>
       </div>
 
+      {/* OFFER MODAL */}
       {offerVisible && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="offer-title" onClick={(e) => e.target === e.currentTarget && setOfferVisible(false)}>
-          <div className="w-full max-w-lg bg-[#071727] text-white border border-white/15 p-7 sm:p-9 relative shadow-2xl">
-            <button
-              type="button"
-              aria-label="Close special offer"
-              onClick={() => setOfferVisible(false)}
-              className="absolute top-4 right-4 p-2 bg-transparent border-0 text-white/70 hover:text-[#d9ff38] cursor-pointer text-xl"
-            >
-              ✕
-            </button>
-            <p className="eyebrow text-[#d9ff38] font-bold mb-5">LIMITED OFFER</p>
-            <h2 id="offer-title" className="font-bold tracking-[-.06em] leading-none text-3xl m-0">
-              First month free on any plan
-            </h2>
-            <p className="text-[#c4d0d8] leading-relaxed mt-5 mb-0">
-              Mention this offer when you email us and your first month of hosting is on us — no strings.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <a
-                href="mailto:hello@guleddev.com?subject=Special offer request"
-                className="action-button bg-[#d9ff38] text-[#071727] px-5 py-3.5 rounded-sm font-bold no-underline"
-              >
-                Claim offer
-              </a>
-              <button
-                type="button"
-                onClick={() => setOfferVisible(false)}
-                className="action-button border border-white/25 text-white bg-transparent px-5 py-3.5 rounded-sm font-bold cursor-pointer"
-              >
-                Not now
-              </button>
+        <div className="modal-backdrop" onClick={(e) => e.target === e.currentTarget && setOfferVisible(false)}>
+          <div className="modal-card">
+            <button className="modal-close" aria-label="Close" onClick={() => setOfferVisible(false)}>✕</button>
+            <div className="eyebrow eyebrow-light" style={{ marginBottom: "1rem" }}>Limited offer</div>
+            <h2 className="modal-title">First month free on any plan</h2>
+            <p className="modal-copy">Mention this offer when you email us and your first month of hosting is on us — no strings.</p>
+            <div className="btn-row" style={{ marginTop: "1.75rem" }}>
+              <a className="btn btn-accent" href="mailto:hello@guleddev.com?subject=Special offer request">Claim offer</a>
+              <button className="btn btn-ghost" onClick={() => setOfferVisible(false)}>Not now</button>
             </div>
           </div>
         </div>
       )}
+
+      <style jsx global>{`
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+          font-family: "Inter", system-ui, -apple-system, sans-serif;
+          color: #0f2438;
+          background: #ffffff;
+          -webkit-font-smoothing: antialiased;
+        }
+        button { font-family: inherit; }
+        img { display: block; max-width: 100%; }
+
+        .page { width: 100%; overflow-x: hidden; }
+        .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+        .eyebrow {
+          font-family: "Space Mono", monospace;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          font-size: 0.72rem;
+          font-weight: 700;
+        }
+        .eyebrow-light { color: #a9e830; }
+        .eyebrow-green { color: #1a7a4c; margin-bottom: 14px; display: block; }
+        .eyebrow-dark { color: #0f2438; margin-bottom: 14px; display: block; }
+        .eyebrow-muted { color: #6b7c88; }
+
+        /* HEADER */
+        .header { background: #0b1c2c; color: #fff; position: sticky; top: 0; z-index: 30; }
+        .header-row { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
+        .brand { background: none; border: 0; color: #fff; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; cursor: pointer; padding: 0; }
+        .nav-desktop { display: none; gap: 32px; }
+        .nav-link { background: none; border: 0; color: #9fb1bf; font-size: 0.95rem; font-weight: 500; cursor: pointer; padding: 8px 0; }
+        .nav-link.active, .nav-link:hover { color: #fff; }
+        .header-actions { display: none; align-items: center; gap: 20px; }
+        .header-email { color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .header-email:hover { color: #a9e830; }
+        .menu-toggle { background: none; border: 0; color: #a9e830; font-size: 1.4rem; cursor: pointer; }
+        .nav-mobile { display: flex; flex-direction: column; gap: 4px; padding: 8px 24px 24px; }
+        .nav-mobile-link { background: none; border: 0; color: #fff; font-size: 1.1rem; font-weight: 600; text-align: left; padding: 10px 0; cursor: pointer; }
+
+        @media (min-width: 860px) {
+          .nav-desktop { display: flex; }
+          .header-actions { display: flex; }
+          .menu-toggle { display: none; }
+        }
+
+        /* BUTTONS */
+        .btn { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 8px; padding: 12px 22px; font-weight: 700; font-size: 0.95rem; cursor: pointer; text-decoration: none; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+        .btn-lg { padding: 15px 28px; font-size: 1rem; }
+        .btn-block { width: 100%; }
+        .btn-accent { background: #a9e830; color: #0b1c2c; }
+        .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(169,232,48,0.35); }
+        .btn-ghost { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.16); }
+        .btn-dark { background: #0b1c2c; color: #fff; }
+        .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(11,28,44,0.25); }
+        .btn-outline { background: #fff; color: #0b1c2c; border: 1.5px solid #d8dfe3; }
+        .btn-outline:hover { background: #f4f7f5; }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        /* HERO */
+        .hero { position: relative; background: #0b1c2c; color: #fff; overflow: hidden; padding: 64px 0 80px; }
+        .hero-bg { position: absolute; top: -140px; right: 8%; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(169,232,48,0.18), transparent 70%); pointer-events: none; }
+        .hero-grid { position: relative; display: grid; gap: 48px; align-items: center; }
+        .eyebrow-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #a9e830; box-shadow: 0 0 14px rgba(169,232,48,0.9); }
+        .hero-title { font-size: clamp(2.4rem, 5.5vw, 3.6rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 26px; }
+        .hero-copy { color: #c2ccd4; font-size: 1.1rem; line-height: 1.65; max-width: 520px; margin: 0 0 34px; }
+        .trust-row { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 38px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.14); font-size: 0.9rem; color: #b7c3cc; }
+        .hero-image-card { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.45); min-height: 320px; }
+        .hero-image-card img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .hero-image-caption { position: relative; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 22px; background: linear-gradient(0deg, rgba(4,12,20,0.92), transparent); margin-top: 200px; }
+        .hero-image-icon { width: 42px; height: 42px; border-radius: 50%; background: #a9e830; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .hero-image-label { color: #fff; font-weight: 700; font-size: 1.05rem; }
+
+        @media (min-width: 900px) {
+          .hero-grid { grid-template-columns: 1.05fr 0.95fr; }
+          .hero-image-card { min-height: 460px; }
+        }
+
+        /* SECTIONS */
+        .section { padding: 72px 0; }
+        .section-light { background: #f6f8f5; }
+        .section-white { background: #fff; }
+        .section-border { border-bottom: 1px solid #e2e8e3; }
+        .section-accent { background: #a9e830; }
+        .section-title { font-size: clamp(1.9rem, 3.6vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; margin: 0 0 20px; max-width: 700px; }
+        .section-copy { color: #4c5c63; font-size: 1.05rem; line-height: 1.65; max-width: 560px; margin: 0 0 28px; }
+        .section-copy-wide { max-width: 640px; }
+
+        .mission-grid { display: grid; gap: 40px; align-items: center; }
+        .mission-image-wrap { position: relative; border-radius: 14px; overflow: hidden; }
+        .mission-image-wrap img { width: 100%; height: 320px; object-fit: cover; }
+        .mission-caption { position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(11,28,44,0.88); color: #a9e830; font-family: "Space Mono", monospace; font-size: 0.78rem; letter-spacing: 0.04em; padding: 14px 16px; border-radius: 8px; }
+        @media (min-width: 900px) { .mission-grid { grid-template-columns: 0.85fr 1.15fr; } .mission-image-wrap img { height: 380px; } }
+
+        /* SERVICES */
+        .service-grid { display: grid; gap: 20px; }
+        @media (min-width: 780px) { .service-grid { grid-template-columns: repeat(3, 1fr); } }
+        .service-card { background: #fff; border: 1px solid #e4e9e5; border-radius: 14px; overflow: hidden; transition: box-shadow .2s ease, transform .2s ease; }
+        .service-card.open, .service-card:hover { box-shadow: 0 18px 40px rgba(11,28,44,0.1); transform: translateY(-4px); }
+        .service-toggle { width: 100%; background: none; border: 0; text-align: left; padding: 30px 28px; cursor: pointer; }
+        .service-icon { font-size: 1.7rem; display: block; margin-bottom: 20px; }
+        .service-number { font-family: "Space Mono", monospace; font-size: 0.75rem; color: #97a3ab; margin-bottom: 10px; }
+        .service-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.01em; }
+        .service-desc { color: #5b6b72; font-size: 0.95rem; line-height: 1.55; margin: 0; }
+        .service-cta { display: inline-block; margin-top: 20px; font-size: 0.88rem; font-weight: 700; color: #1a7a4c; }
+        .service-detail { padding: 0 28px 30px; border-top: 1px solid #eef1ef; }
+        .service-detail-image { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin: 22px 0 18px; }
+        .service-example { font-weight: 600; font-size: 0.92rem; line-height: 1.55; margin: 0 0 20px; }
+        .service-steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+        .service-step { display: flex; gap: 12px; }
+        .step-num { font-family: "Space Mono", monospace; font-size: 0.75rem; color: #97a3ab; padding-top: 2px; flex-shrink: 0; }
+        .step-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 3px; }
+        .step-copy { color: #6b7c84; font-size: 0.85rem; line-height: 1.5; margin: 0; }
+        .service-outcome { background: #eef7e2; color: #2c4a1f; font-weight: 600; font-size: 0.88rem; line-height: 1.5; padding: 14px 16px; border-radius: 8px; }
+
+        /* PRICING */
+        .pricing-grid { display: grid; gap: 20px; }
+        @media (min-width: 900px) { .pricing-grid { grid-template-columns: repeat(3, 1fr); } }
+        .plan-card { position: relative; background: #fff; border: 1px solid #dde3df; border-radius: 14px; padding: 34px 30px; display: flex; flex-direction: column; }
+        .plan-dark { background: #0b1c2c; border-color: #0b1c2c; color: #fff; box-shadow: 0 24px 50px rgba(11,28,44,0.25); }
+        .plan-badge { position: absolute; top: -14px; right: 24px; background: #a9e830; color: #0b1c2c; font-family: "Space Mono", monospace; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; padding: 6px 12px; border-radius: 6px; }
+        .plan-name { font-size: 1.4rem; font-weight: 800; margin: 0 0 8px; }
+        .plan-summary { color: #6b7c84; margin: 0 0 24px; font-size: 0.95rem; }
+        .plan-dark .plan-summary { color: #b7c3cc; }
+        .plan-price { margin-bottom: 26px; }
+        .plan-price-num { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em; }
+        .plan-price-period { color: #6b7c84; font-size: 0.95rem; }
+        .plan-dark .plan-price-period { color: #b7c3cc; }
+        .plan-features { list-style: none; padding: 0; margin: 0 0 30px; display: flex; flex-direction: column; gap: 14px; }
+        .plan-features li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; }
+        .check { color: #1a7a4c; font-weight: 700; }
+        .plan-dark .check { color: #a9e830; }
+
+        /* ABOUT */
+        .about-grid { display: grid; gap: 40px; align-items: center; }
+        @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 0.9fr; } }
+        .about-image-wrap { position: relative; }
+        .about-image-wrap img { width: 100%; height: 340px; object-fit: cover; border-radius: 14px; }
+        .about-caption { position: absolute; bottom: -16px; left: -16px; max-width: 220px; background: #0b1c2c; color: #fff; font-size: 0.85rem; line-height: 1.5; padding: 18px; border-radius: 10px; box-shadow: 0 14px 30px rgba(11,28,44,0.25); }
+
+        /* FOOTER */
+        .footer { background: #0b1c2c; color: #fff; }
+        .footer-row { display: flex; flex-direction: column; gap: 16px; padding: 36px 0; }
+        .footer-brand { font-weight: 800; letter-spacing: -0.02em; }
+        .footer-copy { color: #9fb1bf; font-size: 0.88rem; }
+        .footer-email { color: #a9e830; font-weight: 600; font-size: 0.88rem; text-decoration: none; }
+        @media (min-width: 700px) { .footer-row { flex-direction: row; justify-content: space-between; align-items: center; } }
+
+        /* MODAL — fixed: solid opaque background, real contrast */
+        .modal-backdrop { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(4, 12, 20, 0.72); }
+        .modal-card { width: 100%; max-width: 460px; background: #0b1c2c; color: #fff; border-radius: 16px; padding: 36px; position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.08); border: 0; color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 0.95rem; }
+        .modal-close:hover { background: rgba(255,255,255,0.18); }
+        .modal-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; }
+        .modal-copy { color: #c2ccd4; line-height: 1.6; margin: 0; }
+      `}</style>
     </>
   );
 }
+
+
 
 
