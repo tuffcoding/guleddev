@@ -83,13 +83,12 @@ const PLANS = [
   },
 ];
 
-
-
 export default function Home() {
   const [view, setView] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openService, setOpenService] = useState(null);
   const [offerVisible, setOfferVisible] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(null);
 
   useEffect(() => {
     const t = setTimeout(() => setOfferVisible(true), 900);
@@ -100,7 +99,6 @@ export default function Home() {
     setView(target);
     setMobileOpen(false);
   }
-  const [checkoutLoading, setCheckoutLoading] = useState(null);
 
   async function handleCheckout(priceId) {
     setCheckoutLoading(priceId);
@@ -127,7 +125,6 @@ export default function Home() {
       setCheckoutLoading(null);
     }
   }
-
 
   return (
     <>
@@ -307,8 +304,7 @@ export default function Home() {
                         <li key={f}><span className="check">✓</span>{f}</li>
                       ))}
                     </ul>
-                    <a
-                      {plan.priceId ? (
+                    {plan.priceId ? (
                       <button
                         className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
                         onClick={() => handleCheckout(plan.priceId)}
@@ -317,15 +313,13 @@ export default function Home() {
                         {checkoutLoading === plan.priceId ? "Redirecting…" : "Get started"}
                       </button>
                     ) : (
-                      
+                      <a
                         className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
                         href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
                       >
                         Contact us
                       </a>
-
                     )}
-
                   </article>
                 ))}
               </div>
@@ -542,7 +536,3 @@ export default function Home() {
     </>
   );
 }
-
-
-
-
