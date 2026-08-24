@@ -62,8 +62,8 @@ const PLANS = [
     period: "/mo",
     features: ["1 production site", "Deploy pipeline setup", "Email support"],
     dark: false,
-    priceId: "price_1U82Bk1jo0lM4L8bXOLAkhWa
-"  },
+    priceId: "price_1U82Bk1jo0lM4L8bXOLAkhWa",
+  },
   {
     name: "Growth",
     summary: "For products that are starting to matter.",
@@ -72,8 +72,7 @@ const PLANS = [
     features: ["Up to 5 sites", "Stripe & webhook integration", "Priority support, same-day response"],
     dark: true,
     badge: "MOST POPULAR",
-    priceId: "price_1U82CN1jo0lM4L8blPH6HpCj
-", // <-- paste Growth's Stripe Price ID here
+    priceId: "price_1U82CN1jo0lM4L8blPH6HpCj",
   },
   {
     name: "Scale",
@@ -83,6 +82,7 @@ const PLANS = [
     dark: false,
   },
 ];
+
 
 
 export default function Home() {
@@ -322,7 +322,7 @@ export default function Home() {
                         href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
                       >
                         Contact us
-                      </a>
+
                     )}
 
                   </article>
