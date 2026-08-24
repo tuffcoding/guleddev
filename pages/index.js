@@ -130,6 +130,8 @@ export default function Home() {
     <>
       <Head>
         <title>GuledDev — Managed development &amp; hosting</title>
+        <link rel="icon" href="/logo-icon.jpeg" />
+        <link rel="apple-touch-icon" href="/logo-icon.jpeg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </Head>
@@ -138,7 +140,10 @@ export default function Home() {
         {/* HEADER */}
         <header className="header">
           <div className="container header-row">
-            <button className="brand" onClick={() => go("home")}>GuledDev</button>
+            <button className="brand" onClick={() => go("home")}>
+              <img src="/logo-icon.jpeg" alt="GuledDev" className="brand-icon" />
+              GuledDev
+            </button>
             <nav className="nav-desktop">
               {NAV_ITEMS.map((item) => (
                 <button
@@ -225,6 +230,40 @@ export default function Home() {
                   </p>
                   <button className="btn btn-dark" onClick={() => go("about")}>More about us</button>
                 </div>
+              </div>
+            </section>
+
+            <section className="section section-dark">
+              <div className="container">
+                <div className="eyebrow eyebrow-light">Why founders switch</div>
+                <h2 className="section-title" style={{ color: "#fff" }}>An AI can generate a site. It can&apos;t answer the phone when it breaks.</h2>
+                <p className="section-copy" style={{ color: "#c2ccd4" }}>
+                  Prompt-based builders are fast for a first draft — then you&apos;re on your own for
+                  Stripe, webhooks, security, and the 2am outage. GuledDev is the difference between
+                  a generated site and a maintained product.
+                </p>
+                <div className="compare-grid">
+                  <div className="compare-col">
+                    <div className="compare-col-title compare-col-title-them">AI website builders</div>
+                    <ul className="compare-list">
+                      <li><span className="x">✕</span>Generic template, generated in seconds</li>
+                      <li><span className="x">✕</span>You debug integrations yourself</li>
+                      <li><span className="x">✕</span>Support is a chatbot or a ticket queue</li>
+                      <li><span className="x">✕</span>Locked into their platform &amp; pricing</li>
+                    </ul>
+                  </div>
+                  <div className="compare-col compare-col-highlight">
+                    <img src="/logo-icon.jpeg" alt="" className="compare-icon" />
+                    <div className="compare-col-title compare-col-title-us">GuledDev</div>
+                    <ul className="compare-list">
+                      <li><span className="check">✓</span>Built and reviewed by an actual developer</li>
+                      <li><span className="check">✓</span>Stripe, webhooks, and deploys wired correctly the first time</li>
+                      <li><span className="check">✓</span>Direct line to the person who wrote your code</li>
+                      <li><span className="check">✓</span>You own the codebase — no platform lock-in</li>
+                    </ul>
+                  </div>
+                </div>
+                <button className="btn btn-accent btn-lg" style={{ marginTop: "2.5rem" }} onClick={() => go("pricing")}>See pricing</button>
               </div>
             </section>
           </>
@@ -351,7 +390,10 @@ export default function Home() {
         {/* FOOTER */}
         <footer className="footer">
           <div className="container footer-row">
-            <div className="footer-brand">GuledDev</div>
+            <div className="footer-brand">
+              <img src="/logo-icon.jpeg" alt="GuledDev" className="footer-brand-icon" />
+              GuledDev
+            </div>
             <div className="footer-copy">© {new Date().getFullYear()} GuledDev. All rights reserved.</div>
             <a className="footer-email" href="mailto:hello@guleddev.com">hello@guleddev.com</a>
           </div>
@@ -404,7 +446,10 @@ export default function Home() {
         /* HEADER */
         .header { background: #0b1c2c; color: #fff; position: sticky; top: 0; z-index: 30; }
         .header-row { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
-        .brand { background: none; border: 0; color: #fff; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; cursor: pointer; padding: 0; }
+        .brand { display: flex; align-items: center; gap: 10px; background: none; border: 0; color: #fff; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; cursor: pointer; padding: 0; }
+        .brand-icon { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        .footer-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; letter-spacing: -0.02em; }
+        .footer-brand-icon { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
         .nav-desktop { display: none; gap: 32px; }
         .nav-link { background: none; border: 0; color: #9fb1bf; font-size: 0.95rem; font-weight: 500; cursor: pointer; padding: 8px 0; }
         .nav-link.active, .nav-link:hover { color: #fff; }
@@ -461,6 +506,21 @@ export default function Home() {
         .section-white { background: #fff; }
         .section-border { border-bottom: 1px solid #e2e8e3; }
         .section-accent { background: #a9e830; }
+        .section-dark { background: #0b1c2c; }
+
+        .compare-grid { display: grid; gap: 20px; margin-top: 3rem; }
+        @media (min-width: 800px) { .compare-grid { grid-template-columns: 1fr 1fr; } }
+        .compare-col { border-radius: 14px; padding: 34px 30px; border: 1px solid rgba(255,255,255,0.12); }
+        .compare-col-highlight { background: #a9e830; border-color: #a9e830; position: relative; }
+        .compare-icon { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; }
+        .compare-col-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; }
+        .compare-col-title-them { color: #c2ccd4; }
+        .compare-col-title-us { color: #0b1c2c; }
+        .compare-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+        .compare-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; color: #c2ccd4; }
+        .compare-col-highlight .compare-list li { color: #0b1c2c; font-weight: 600; }
+        .compare-list .x { color: #e0575c; font-weight: 700; flex-shrink: 0; }
+        .compare-list .check { color: #0b1c2c; font-weight: 700; flex-shrink: 0; }
         .section-title { font-size: clamp(1.9rem, 3.6vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; margin: 0 0 20px; max-width: 700px; }
         .section-copy { color: #4c5c63; font-size: 1.05rem; line-height: 1.65; max-width: 560px; margin: 0 0 28px; }
         .section-copy-wide { max-width: 640px; }
@@ -520,7 +580,6 @@ export default function Home() {
         /* FOOTER */
         .footer { background: #0b1c2c; color: #fff; }
         .footer-row { display: flex; flex-direction: column; gap: 16px; padding: 36px 0; }
-        .footer-brand { font-weight: 800; letter-spacing: -0.02em; }
         .footer-copy { color: #9fb1bf; font-size: 0.88rem; }
         .footer-email { color: #a9e830; font-weight: 600; font-size: 0.88rem; text-decoration: none; }
         @media (min-width: 700px) { .footer-row { flex-direction: row; justify-content: space-between; align-items: center; } }
