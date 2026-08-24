@@ -322,6 +322,7 @@ export default function Home() {
                         href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
                       >
                         Contact us
+                      </a>
 
                     )}
 
