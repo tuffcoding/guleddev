@@ -62,7 +62,8 @@ const PLANS = [
     period: "/mo",
     features: ["1 production site", "Deploy pipeline setup", "Email support"],
     dark: false,
-  },
+    priceId: "price_1U82Bk1jo0lM4L8bXOLAkhWa
+"  },
   {
     name: "Growth",
     summary: "For products that are starting to matter.",
@@ -71,6 +72,8 @@ const PLANS = [
     features: ["Up to 5 sites", "Stripe & webhook integration", "Priority support, same-day response"],
     dark: true,
     badge: "MOST POPULAR",
+    priceId: "price_1U82CN1jo0lM4L8blPH6HpCj
+", // <-- paste Growth's Stripe Price ID here
   },
   {
     name: "Scale",
@@ -80,6 +83,7 @@ const PLANS = [
     dark: false,
   },
 ];
+
 
 export default function Home() {
   const [view, setView] = useState("home");
@@ -96,6 +100,34 @@ export default function Home() {
     setView(target);
     setMobileOpen(false);
   }
+  const [checkoutLoading, setCheckoutLoading] = useState(null);
+
+  async function handleCheckout(priceId) {
+    setCheckoutLoading(priceId);
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          priceId,
+          successUrl: `${window.location.origin}/?checkout=success`,
+          cancelUrl: `${window.location.origin}/`,
+        }),
+      });
+      const data = await res.json();
+      if (data.sessionUrl) {
+        window.location.href = data.sessionUrl;
+      } else {
+        alert("Something went wrong starting checkout. Please try again.");
+        setCheckoutLoading(null);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("Something went wrong starting checkout. Please try again.");
+      setCheckoutLoading(null);
+    }
+  }
+
 
   return (
     <>
@@ -276,11 +308,23 @@ export default function Home() {
                       ))}
                     </ul>
                     <a
-                      className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
-                      href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
-                    >
-                      {plan.price === "Let's talk" ? "Contact us" : "Get started"}
-                    </a>
+                      {plan.priceId ? (
+                      <button
+                        className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
+                        onClick={() => handleCheckout(plan.priceId)}
+                        disabled={checkoutLoading === plan.priceId}
+                      >
+                        {checkoutLoading === plan.priceId ? "Redirecting…" : "Get started"}
+                      </button>
+                    ) : (
+                      
+                        className={`btn btn-block ${plan.dark ? "btn-accent" : "btn-outline"}`}
+                        href={`mailto:hello@guleddev.com?subject=${encodeURIComponent(plan.name + " plan")}`}
+                      >
+                        Contact us
+                      </a>
+                    )}
+
                   </article>
                 ))}
               </div>
